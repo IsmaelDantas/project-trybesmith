@@ -1,15 +1,17 @@
-import { ResultSetHeader } from 'mysql2';
-import mysql from '../models/connection';
+import { NextFunction, Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import ExceptionHttp from '../util/https';
 
-export default class UsersModel {
-  private connection = mysql;
-
-  public async create(username: string, classe: string, level: number, password: string):
-  Promise<number> {
-    const [{ insertId }] = await this.connection.execute<ResultSetHeader>(
-      'INSERT INTO Trybesmith.Users(username, classe, level, password) VALUES (?, ?, ?, ?)',
-      [username, classe, level, password],
-    );
-    return insertId;
+export default function middlewareAuth(req: Request, res: Response, next: NextFunction) {
+  const { authorization: token } = req.headers;
+  if (!token) {
+    res.status(401).json({ message: 'Token not found' });
+  }
+  try {
+    const decoded = jwt.verify(token as string, process.env.JWT_SECRET as string);
+    req.body.user = decoded;
+    next();
+  } catch (err) {
+    throw new ExceptionHttp(401, 'Invalid token');
   }
 }

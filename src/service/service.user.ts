@@ -17,7 +17,7 @@ export default class ServiceUser {
   }
 
   public async login(username: string, password: string) {
-    const result = await this.modelUser.login(username, password);
+    const [result] = await this.modelUser.login(username, password);
     if (result !== undefined) {
       const token = this.jwt.sign(
         { id: result.id, username },

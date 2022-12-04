@@ -1,4 +1,5 @@
 import express from 'express';
+import middlewareHttp from './middlewares/middleware.http';
 import routerProduct from './routes/route.product';
 import routerUser from './routes/route.user';
 import routerOrder from './routes/route.order';
@@ -12,5 +13,6 @@ app.use('/products', routerProduct);
 app.use('/users', routerUser);
 app.use('/orders', routerOrder);
 app.use('/login', routerLogin);
+app.use(middlewareHttp);
 
 export default app;
