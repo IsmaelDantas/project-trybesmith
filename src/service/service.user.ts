@@ -15,4 +15,19 @@ export default class ServiceUser {
       { algorithm: 'HS256', expiresIn: '1d' },
     );
   }
+
+  public async login(username: string, password: string) {
+    const result = await this.modelUser.login(username, password);
+    if (result !== undefined) {
+      const token = this.jwt.sign(
+        { id: result.id, username },
+        process.env.JWT_SECRET as string,
+        { algorithm: 'HS256', expiresIn: '1d' },
+      );
+
+      return { type: 200, message: token };
+    }
+
+    return { type: 401, message: 'Username or password invalid' };
+  }
 }
