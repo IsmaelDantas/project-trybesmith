@@ -64,8 +64,3 @@ Run the application:
 npm start
 ```
 
-### 6 - Access the documentation and make requests to the server running on the port 3000
-
-Access the route http://localhost:3000/docs/en to see the English documentation and try the API. If you prefer, you can use a HTTP requests client of your choice (Insomnia, Thunder Client, etc) to make requests.
-
-<br />
